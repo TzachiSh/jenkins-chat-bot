@@ -9,7 +9,6 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     final Map<String, Object> complexMessage = [
                 url: hook.getURL(),
                 buildTag: "${env.BUILD_TAG}",
-                inventory: "${inventory}",
                 cause: "${currentBuild."buildCauses"?.shortDescription?.join(", ")}",
                 console: "${env.BUILD_URL}console",
                 sections: [],
