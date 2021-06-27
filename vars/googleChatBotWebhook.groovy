@@ -2,7 +2,7 @@
 
 import static groovy.json.JsonOutput.toJson
 
-void call(final Map<String, String> buildProperties = [:], final String url = env.GOOGLE_BOT_URL) {
+void call(final Map<String, String> buildProperties = [:],final Map<String, String> buildData = [:], final String url = env.GOOGLE_BOT_URL) {
 
     hook = registerWebhook()
     
@@ -19,6 +19,9 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
                     imageStyle: 'AVATAR'
                 ]
     ]
+    if(buildData){
+        complexMessage << buildData
+    }
     
 
     
