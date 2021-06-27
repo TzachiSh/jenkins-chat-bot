@@ -2,7 +2,7 @@
 
 import static groovy.json.JsonOutput.toJson
 
-void call(final Map<String, String> buildProperties = [:], final String url = env.GOOGLE_BOT_URL, final String inventory = env.inventory) {
+void call(final Map<String, String> buildProperties = [:], final String url = env.GOOGLE_BOT_URL) {
 
     hook = registerWebhook()
     
@@ -77,7 +77,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
 
     final String requestBody = toJson(complexMessage)
     echo requestBody
-    httpRequest(requestBody: requestBody, url: url + '?start=true', httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
+    httpRequest(requestBody: requestBody, url: url + '/jenkins?start=true', httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
     
     def data = waitForWebhook hook
     def webhookJson = readJSON text: data

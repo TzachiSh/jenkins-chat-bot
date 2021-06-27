@@ -64,5 +64,5 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     final String requestBody = toJson(complexMessage)
     echo requestBody
 
-    httpRequest(requestBody: requestBody, url: url, httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
+    httpRequest(requestBody: requestBody, url: url + '/jenkins', httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
 }
