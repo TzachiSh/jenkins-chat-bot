@@ -9,6 +9,7 @@ void call(final Map<String, String> buildProperties = [:],final Map<String, Stri
     final Map<String, Object> complexMessage = [
                 url: hook.getURL(),
                 buildTag: "${env.BUILD_TAG}",
+                stage: "${STAGE_NAME}"
     ]
     
     echo "Waiting for POST to ${hook.getURL()}"

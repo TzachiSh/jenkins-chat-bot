@@ -41,7 +41,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
 
     if (buildProperties) {
         complexMessage.sections << [
-            header: "${STAGE_NAME}",
+            header: "Stage ${STAGE_NAME}",
             widgets: buildProperties.collect { key, value ->
                 [keyValue: [topLabel: "${key}", content: "${value}", contentMultiline: "true"]]
             }
