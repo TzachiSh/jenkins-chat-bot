@@ -9,7 +9,6 @@ void call(final Map<String, String> buildProperties = [:],final Map<String, Stri
     newBuildURL = newBuildURL.replace("job/${env.BRANCH_NAME}", "detail/${env.BRANCH_NAME}")
     
     final Map<String, Object> complexMessage = [
-                url: hook.getURL(),
                 buildTag: "${env.BUILD_TAG}",
                 cause: "${currentBuild."buildCauses"?.shortDescription?.join(", ")}",
                 console: "${newBuildURL}/pipline",
