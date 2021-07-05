@@ -19,7 +19,6 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     ]
     final Map<String, Object> complexMessage = [
         buildTag: "${env.BUILD_TAG}",
-        sections: [],
         header: [
                     title: "${env.JOB_NAME}",
                     subtitle: "#${env.BUILD_NUMBER} ${RESULT_TEXT[currentBuild.currentResult]}",
@@ -27,35 +26,6 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
                     imageStyle: "AVATAR"
                 ]
     ]
-
-    if (buildProperties.message) {
-        final String message = buildProperties.remove("message")
-        complexMessage.sections << [
-            "widgets": [
-                [
-                    textParagraph: [text: message]
-                ]
-            ]
-        ]
-    }
-
-    if (buildProperties) {
-        complexMessage.sections << [
-            header: "Stage ${STAGE_NAME}",
-            widgets: buildProperties.collect { key, value ->
-                [keyValue: [topLabel: "${key}", content: "${value}", contentMultiline: "true"]]
-            }
-        ]
-    }
-
-    if (params) {
-        complexMessage.sections << [
-            header: "Parameters",
-            widgets: params.collect { key, value ->
-                [keyValue: [topLabel: "${key}", content: "${value}"]]
-            }
-        ]
-    }
     
     final String requestBody = toJson(complexMessage)
     echo requestBody
