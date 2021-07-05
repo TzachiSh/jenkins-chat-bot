@@ -30,7 +30,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
 
     if (buildProperties.message) {
         final String message = buildProperties.remove("message")
-        complexMessage.cards[0].sections << [
+        complexMessage.sections << [
             "widgets": [
                 [
                     textParagraph: [text: message]
@@ -40,7 +40,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     }
 
     if (buildProperties) {
-        complexMessage.cards[0].sections << [
+        complexMessage.sections << [
             header: "${STAGE_NAME}",
             widgets: buildProperties.collect { key, value ->
                 [keyValue: [topLabel: "${key}", content: "${value}", contentMultiline: "true"]]
@@ -49,7 +49,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     }
 
     if (params) {
-        complexMessage.cards[0].sections << [
+        complexMessage.sections << [
             header: "Parameters",
             widgets: params.collect { key, value ->
                 [keyValue: [topLabel: "${key}", content: "${value}"]]
