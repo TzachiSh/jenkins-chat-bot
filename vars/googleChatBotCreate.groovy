@@ -4,14 +4,11 @@ import static groovy.json.JsonOutput.toJson
 
 void call(final Map<String, String> buildProperties = [:],final Map<String, String> buildData = [:], final String url = env.GOOGLE_BOT_URL) {
 
-    def buildURL = env.BUILD_URL
-    def newBuildURL = buildURL.replace("job/${env.JOB_NAME}", "blue/organizations/jenkins/${env.JOB_NAME}")
-    newBuildURL = newBuildURL.replace("job/${env.BRANCH_NAME}", "detail/${env.BRANCH_NAME}")
     
     final Map<String, Object> complexMessage = [
                 buildTag: "${env.BUILD_TAG}",
                 cause: "${currentBuild."buildCauses"?.shortDescription?.join(", ")}",
-                console: "${newBuildURL}/pipline",
+                console: "${env.RUN_DISPLAY_URL}/pipline",
                 sections: [],
                 header: [
                     title: "${env.JOB_NAME}",
@@ -78,5 +75,15 @@ void call(final Map<String, String> buildProperties = [:],final Map<String, Stri
     final String requestBody = toJson(complexMessage)
     echo requestBody
     httpRequest(requestBody: requestBody, url: url + '/jenkins?start=true', httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
+
+      step([
+    $class: 'GitHubCommitStatusSetter',
+    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+    contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
+    statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${buildResultUrl}"],
+    statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ])
     
 }
