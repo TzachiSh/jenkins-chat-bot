@@ -4,13 +4,15 @@ import static groovy.json.JsonOutput.toJson
 
 void call(final Map<String, String> buildProperties = [:],final Map<String, String> buildData = [:], final String url = env.GOOGLE_BOT_URL) {
 
-    hook = registerWebhook()
+    def buildURL = env.BUILD_URL
+    def newBuildURL = buildURL.replace("job/${env.JOB_NAME}", "blue/organizations/jenkins/${env.JOB_NAME}")
+    newBuildURL = newBuildURL.replace("job/${env.BRANCH_NAME}", "detail/${env.BRANCH_NAME}")
     
     final Map<String, Object> complexMessage = [
                 url: hook.getURL(),
                 buildTag: "${env.BUILD_TAG}",
                 cause: "${currentBuild."buildCauses"?.shortDescription?.join(", ")}",
-                console: "${env.BUILD_URL}console",
+                console: "${newBuildURL}/pipline",
                 sections: [],
                 header: [
                     title: "${env.JOB_NAME}",
