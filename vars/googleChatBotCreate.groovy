@@ -75,12 +75,4 @@ void call(final Map<String, String> buildProperties = [:],final Map<String, Stri
     echo requestBody
     httpRequest(requestBody: requestBody, url: url + '/jenkins?start=true', httpMode: 'POST', contentType: 'APPLICATION_JSON_UTF8')
 
-      step([
-    $class: 'GitHubCommitStatusSetter',
-    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-    contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
-    statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${buildResultUrl}"],
-    statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ])
-    
 }
