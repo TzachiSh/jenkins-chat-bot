@@ -19,7 +19,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     ]
     final Map<String, Object> complexMessage = [
         buildTag: "${env.BUILD_TAG}",
-        sections: []
+        sections: [],
         header: [
                     title: "${env.JOB_NAME}",
                     subtitle: "#${env.BUILD_NUMBER} ${RESULT_TEXT[currentBuild.currentResult]}",
