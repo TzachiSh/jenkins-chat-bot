@@ -4,10 +4,6 @@ import static groovy.json.JsonOutput.toJson
 
 void call(final Map<String, String> buildProperties = [:],final Map<String, String> buildData = [:], final String url = env.GOOGLE_BOT_URL) {
     
-      repoUrl = gitRepoURL()
-      commitSha = gitCommitHash()
-
-    
     final Map<String, Object> complexMessage = [
                 buildTag: "${env.BUILD_TAG}",
                 cause: "${currentBuild."buildCauses"?.shortDescription?.join(", ")}",
@@ -81,8 +77,6 @@ void call(final Map<String, String> buildProperties = [:],final Map<String, Stri
 
       step([
     $class: 'GitHubCommitStatusSetter',
-    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
     errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
     contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
     statusBackrefSource: [$class: "ManuallyEnteredBackrefSource", backref: "${buildResultUrl}"],
