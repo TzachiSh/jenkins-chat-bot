@@ -19,17 +19,13 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     ]
     final Map<String, Object> complexMessage = [
         buildTag: "${env.BUILD_TAG}",
-        cards: [
-            [
-                header: [
+        sections: []
+        header: [
                     title: "${env.JOB_NAME}",
                     subtitle: "#${env.BUILD_NUMBER} ${RESULT_TEXT[currentBuild.currentResult]}",
                     imageUrl: RESULT_IMGS[currentBuild.currentResult] ?: RESULT_IMGS["NOT_BUILT"],
                     imageStyle: "AVATAR"
-                ],
-                sections: []
-            ]
-        ]
+                ]
     ]
 
     if (buildProperties.message) {
@@ -45,7 +41,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
 
     if (buildProperties) {
         complexMessage.cards[0].sections << [
-            header: "Properties",
+            header: "${STAGE_NAME}",
             widgets: buildProperties.collect { key, value ->
                 [keyValue: [topLabel: "${key}", content: "${value}", contentMultiline: "true"]]
             }
